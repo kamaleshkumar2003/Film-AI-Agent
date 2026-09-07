@@ -55,3 +55,40 @@ class JobStatus(str, enum.Enum):
     ANALYZING = "ANALYZING"
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
+
+# V2 Enums
+class LightingRequirement(str, enum.Enum):
+    NORMAL_DAY = "NORMAL_DAY"
+    NORMAL_NIGHT = "NORMAL_NIGHT"
+    SUNRISE = "SUNRISE"
+    SUNSET = "SUNSET"
+    GOLDEN_HOUR = "GOLDEN_HOUR"
+    BLUE_HOUR = "BLUE_HOUR"
+    DAWN = "DAWN"
+    DUSK = "DUSK"
+    SPECIAL_LIGHTING = "SPECIAL_LIGHTING"
+
+class OptimizationProfile(str, enum.Enum):
+    BALANCED = "BALANCED"
+    FASTEST = "FASTEST"
+    CHEAPEST = "CHEAPEST"
+    BEST_QUALITY = "BEST_QUALITY"
+
+class ScheduleStatus(str, enum.Enum):
+    DRAFT = "DRAFT"
+    FINAL = "FINAL"
+    ARCHIVED = "ARCHIVED"
+
+class ConflictSeverity(str, enum.Enum):
+    ERROR = "ERROR"
+    WARNING = "WARNING"
+    INFO = "INFO"
+
+class ConflictType(str, enum.Enum):
+    CAST = "CAST"
+    CREW = "CREW"
+    LOCATION = "LOCATION"
+    WEATHER = "WEATHER"
+    LIGHTING = "LIGHTING"
+    TIMING = "TIMING"
+    OVERTIME = "OVERTIME"

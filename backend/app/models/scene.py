@@ -10,7 +10,8 @@ from app.models.enums import (
     LocationType,
     CharacterPresence,
     VehicleState,
-    SpecialEffectCategory
+    SpecialEffectCategory,
+    LightingRequirement
 )
 
 def utcnow():
@@ -45,6 +46,16 @@ class Scene(Base):
     estimated_duration_minutes = Column(Integer, default=60)
     duration_confidence = Column(Float, default=0.7)
     
+    # V2 Enhancements
+    human_override_duration_minutes = Column(Integer, nullable=True)
+    lighting_requirement = Column(SQLEnum(LightingRequirement), default=LightingRequirement.NORMAL_DAY)
+    costume_state = Column(String(100), nullable=True)
+    makeup_state = Column(String(100), nullable=True)
+    is_locked = Column(Boolean, default=False)
+    locked_day_number = Column(Integer, nullable=True)
+    locked_start_time = Column(String(20), nullable=True)
+    locked_location_id = Column(String(36), nullable=True)
+    
     production_notes = Column(Text, nullable=True)
     continuity_notes = Column(Text, nullable=True)
     special_requirements = Column(Text, nullable=True)
@@ -67,6 +78,12 @@ class Scene(Base):
     crew_requirements = relationship("SceneCrewRequirement", back_populates="scene", cascade="all, delete-orphan")
     equipment = relationship("SceneEquipment", back_populates="scene", cascade="all, delete-orphan")
     vfx_stunts = relationship("SceneVFXStunts", back_populates="scene", cascade="all, delete-orphan")
+
+    @property
+    def effective_duration_minutes(self) -> int:
+        if self.human_override_duration_minutes is not None and self.human_override_duration_minutes > 0:
+            return self.human_override_duration_minutes
+        return self.estimated_duration_minutes or 60
 
 class SceneCharacter(Base):
     __tablename__ = "scene_characters"

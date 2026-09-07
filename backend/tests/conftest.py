@@ -1,7 +1,6 @@
 import os
 import pytest
 import pytest_asyncio
-from pathlib import Path
 from httpx import AsyncClient, ASGITransport
 from app.config import settings
 from app.core.database import init_db, engine, Base
@@ -12,6 +11,11 @@ TEST_DB_FILE = "./test_production_plan.db"
 @pytest_asyncio.fixture(scope="session", autouse=True)
 async def initialize_test_database():
     settings.DATABASE_URL = f"sqlite+aiosqlite:///{TEST_DB_FILE}"
+    if os.path.exists(TEST_DB_FILE):
+        try:
+            os.remove(TEST_DB_FILE)
+        except Exception:
+            pass
     await init_db()
     yield
     await engine.dispose()

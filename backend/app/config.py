@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "AI Film Production Breakdown and Planning System"
-    VERSION: str = "1.0.0"
+    VERSION: str = "2.0.0"
     API_V1_STR: str = "/api"
     
     DATABASE_URL: str = "sqlite+aiosqlite:///./production_plan.db"
